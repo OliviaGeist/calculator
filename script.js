@@ -23,6 +23,7 @@ let numAOpen = true;
 let operatorOpen = false;
 let numBOpen = false;
 
+const docBody = document.querySelector("body");
 const digitButtons = document.querySelectorAll(".digit-button");
 const operatorButtons = document.querySelectorAll(".operator-button");
 const display = document.querySelector("#display");
@@ -45,20 +46,25 @@ function operate(a, o, b) {
 };
 
 function updateFirstNumber(e) {
-    if (numAOpen) {
-        numA = (numA + e.target.id);
-        display.textContent = numA;
-        operatorOpen = true;
-        console.log("first");
-        console.log(`numA is ${numA}`);
-        console.log(`operator is ${operator}`);
-        console.log(`numB is ${numB}`);
+    if (numAOpen && !(e == "." && numA.indexOf(".") !== -1)) {
+        if (e == "Backspace") {
+            numA = numA.slice(0, numA.length - 1);
+            display.textContent = numA;
+        } else {
+            numA = (numA + e);
+            display.textContent = numA;
+            operatorOpen = true;
+            console.log("first");
+            console.log(`numA is ${numA}`);
+            console.log(`operator is ${operator}`);
+            console.log(`numB is ${numB}`);
+        };
     };
 };
 
-function getFirstNumber() {
-    digitButtons.forEach((digitButton) => {
-        digitButton.addEventListener("click", event => updateFirstNumber(event));
+function clickFirstNumber() {
+    digitButtons.forEach(digitButton => {
+        digitButton.addEventListener("click", event => updateFirstNumber(event.target.id));
     });
 };
 
@@ -73,8 +79,8 @@ function updateOperator(e) {
         numB = "";
         numAOpen = false;
         numBOpen = false;
-        if (e.target.id !== "=") {
-            operator = e.target.id;
+        if (e !== "=") {
+            operator = e;
             numBOpen = true;
             operatorOpen = false;
         }
@@ -82,34 +88,56 @@ function updateOperator(e) {
         console.log(`numA is ${numA}`);
         console.log(`operator is ${operator}`);
         console.log(`numB is ${numB}`);
-
     };
 };
 
-function getOperator() {
+function clickOperator() {
     operatorButtons.forEach((operatorButton) => {
-        operatorButton.addEventListener("click", event => updateOperator(event));
+        operatorButton.addEventListener("click", event => updateOperator(event.target.id));
     });
 };
 
 function updateSecondNumber(e) {
-    if (numBOpen) {
-        numB = (numB + e.target.id);
-        display.textContent = numB;
-        operatorOpen = true;
-        console.log("second");
-        console.log(`numA is ${numA}`);
-        console.log(`operator is ${operator}`);
-        console.log(`numB is ${numB}`);
+    if (numBOpen && !(e == "." && numB.indexOf(".") !== -1)) {
+        if (e == "Backspace") {
+            numB = numB.slice(0, numB.length - 1);
+            display.textContent = numB;
+        } else {
+            numB = (numB + e);
+            display.textContent = numB;
+            operatorOpen = true;
+            console.log("second");
+            console.log(`numA is ${numA}`);
+            console.log(`operator is ${operator}`);
+            console.log(`numB is ${numB}`);
+        };
     };
 };
 
-function getSecondNumber() {
+function clickSecondNumber() {
     digitButtons.forEach((digitButton) => {
-        digitButton.addEventListener("click", event => updateSecondNumber(event));
+        digitButton.addEventListener("click", event => updateSecondNumber(event.target.id));
     });
 };
 
-getFirstNumber();
-getSecondNumber();
-getOperator();
+function keyManager() {
+    const numberList = "0123456789."
+    const operatorList = "+-*/="
+    docBody.addEventListener("keydown", event => {
+        if (numberList.indexOf(event.key) !== -1 || event.key == "Backspace") {
+            event.preventDefault();
+            updateFirstNumber(event.key);
+            updateSecondNumber(event.key);
+        } else if (operatorList.indexOf(event.key) !== -1 || event.key == "Enter") {
+            event.preventDefault();
+            if (event.key == "Enter") {
+                updateOperator("=");
+            } else updateOperator(event.key);
+        }
+    });
+};
+
+clickFirstNumber();
+clickSecondNumber();
+clickOperator();
+keyManager();
