@@ -22,6 +22,8 @@ let numAOpen = true;
 let operatorOpen = false;
 let numBOpen = false;
 
+let fromResult = false;
+
 const docBody = document.querySelector("body");
 const digitButtons = document.querySelectorAll(".digit-button");
 const operatorButtons = document.querySelectorAll(".operator-button");
@@ -46,6 +48,10 @@ function operate(a, o, b) {
 };
 
 function updateFirstNumber(e) {
+    if (fromResult) {
+        numA = "";
+        fromResult = false;
+    };
     if (numAOpen && !(e == "." && numA.indexOf(".") !== -1)) {
         if (e == "Backspace") {
             numA = numA.slice(0, numA.length - 1);
@@ -55,6 +61,10 @@ function updateFirstNumber(e) {
             display.textContent = numA;
             operatorOpen = true;
         };
+        console.log("first");
+        console.log(`numA is ${numA}`);
+        console.log(`operator is ${operator}`);
+        console.log(`numB is ${numB}`);
     };
 };
 
@@ -66,6 +76,7 @@ function clickFirstNumber() {
 
 function updateOperator(e) {
     if (operatorOpen) {
+        fromResult = false;
         if (numA && operator && numB) {
             const answer = operate(numA, operator, numB);
             display.textContent = answer;
@@ -78,7 +89,14 @@ function updateOperator(e) {
             operator = e;
             numBOpen = true;
             operatorOpen = false;
-        }
+        } else {
+            numAOpen = true;
+            fromResult = true;
+        };
+        console.log("middle");
+        console.log(`numA is ${numA}`);
+        console.log(`operator is ${operator}`);
+        console.log(`numB is ${numB}`);
     };
 };
 
@@ -98,6 +116,10 @@ function updateSecondNumber(e) {
             display.textContent = numB;
             operatorOpen = true;
         };
+        console.log("last");
+        console.log(`numA is ${numA}`);
+        console.log(`operator is ${operator}`);
+        console.log(`numB is ${numB}`);
     };
 };
 
