@@ -1,5 +1,4 @@
 function addition(a, b) {
-    console.log("add");
     return +a + +b;
 };
 
@@ -26,6 +25,7 @@ let numBOpen = false;
 const docBody = document.querySelector("body");
 const digitButtons = document.querySelectorAll(".digit-button");
 const operatorButtons = document.querySelectorAll(".operator-button");
+const clearButton = document.querySelector("#clear-button");
 const display = document.querySelector("#display");
 
 function operate(a, o, b) {
@@ -54,10 +54,6 @@ function updateFirstNumber(e) {
             numA = (numA + e);
             display.textContent = numA;
             operatorOpen = true;
-            console.log("first");
-            console.log(`numA is ${numA}`);
-            console.log(`operator is ${operator}`);
-            console.log(`numB is ${numB}`);
         };
     };
 };
@@ -72,7 +68,6 @@ function updateOperator(e) {
     if (operatorOpen) {
         if (numA && operator && numB) {
             const answer = operate(numA, operator, numB);
-            console.log(answer);
             display.textContent = answer;
             numA = answer;
         };
@@ -84,10 +79,6 @@ function updateOperator(e) {
             numBOpen = true;
             operatorOpen = false;
         }
-        console.log("middle");
-        console.log(`numA is ${numA}`);
-        console.log(`operator is ${operator}`);
-        console.log(`numB is ${numB}`);
     };
 };
 
@@ -106,10 +97,6 @@ function updateSecondNumber(e) {
             numB = (numB + e);
             display.textContent = numB;
             operatorOpen = true;
-            console.log("second");
-            console.log(`numA is ${numA}`);
-            console.log(`operator is ${operator}`);
-            console.log(`numB is ${numB}`);
         };
     };
 };
@@ -137,7 +124,23 @@ function keyManager() {
     });
 };
 
+function clearAll() {
+    numA = "";
+    numB = "";
+    operator = "";
+    display.textContent = "00000000";
+
+    numAOpen = true;
+    numBOpen = false;
+    operatorOpen = false;
+};
+
+function clickClear() {
+    clearButton.addEventListener("click", event => clearAll());
+};
+
 clickFirstNumber();
 clickSecondNumber();
 clickOperator();
+clickClear();
 keyManager();
