@@ -1,18 +1,18 @@
 function addition(a, b) {
     console.log("add");
-    return a + b;
+    return +a + +b;
 };
 
 function subtraction(a, b) {
-    return a - b;
+    return +a - +b;
 };
 
 function multiplication(a, b) {
-    return a * b;
+    return +a * +b;
 };
 
 function division(a, b) {
-    return a / b;
+    return +a / +b;
 };
 
 let numA = "";
@@ -46,9 +46,10 @@ function operate(a, o, b) {
 
 function updateFirstNumber(e) {
     if (numAOpen) {
-        numA = +(numA + e.target.id);
+        numA = (numA + e.target.id);
         display.textContent = numA;
         operatorOpen = true;
+        console.log("first");
         console.log(`numA is ${numA}`);
         console.log(`operator is ${operator}`);
         console.log(`numB is ${numB}`);
@@ -74,9 +75,10 @@ function updateOperator(e) {
         numBOpen = false;
         if (e.target.id !== "=") {
             operator = e.target.id;
-            operatorOpen = false;
             numBOpen = true;
+            operatorOpen = false;
         }
+        console.log("middle");
         console.log(`numA is ${numA}`);
         console.log(`operator is ${operator}`);
         console.log(`numB is ${numB}`);
@@ -92,10 +94,10 @@ function getOperator() {
 
 function updateSecondNumber(e) {
     if (numBOpen) {
-        numB = +(numB + e.target.id);
+        numB = (numB + e.target.id);
         display.textContent = numB;
         operatorOpen = true;
-        getOperator();
+        console.log("second");
         console.log(`numA is ${numA}`);
         console.log(`operator is ${operator}`);
         console.log(`numB is ${numB}`);
