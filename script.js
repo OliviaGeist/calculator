@@ -61,10 +61,6 @@ function updateFirstNumber(e) {
             display.textContent = numA;
             operatorOpen = true;
         };
-        console.log("first");
-        console.log(`numA is ${numA}`);
-        console.log(`operator is ${operator}`);
-        console.log(`numB is ${numB}`);
     };
 };
 
@@ -93,10 +89,6 @@ function updateOperator(e) {
             numAOpen = true;
             fromResult = true;
         };
-        console.log("middle");
-        console.log(`numA is ${numA}`);
-        console.log(`operator is ${operator}`);
-        console.log(`numB is ${numB}`);
     };
 };
 
@@ -116,10 +108,6 @@ function updateSecondNumber(e) {
             display.textContent = numB;
             operatorOpen = true;
         };
-        console.log("last");
-        console.log(`numA is ${numA}`);
-        console.log(`operator is ${operator}`);
-        console.log(`numB is ${numB}`);
     };
 };
 
@@ -150,7 +138,7 @@ function clearAll() {
     numA = "";
     numB = "";
     operator = "";
-    display.textContent = "00000000";
+    display.textContent = "0";
 
     numAOpen = true;
     numBOpen = false;
